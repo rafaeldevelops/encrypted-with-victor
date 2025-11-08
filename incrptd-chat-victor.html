@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Literal Symbol Translator</title>
+<style>
+* {box-sizing: border-box; margin: 0; padding: 0;}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  background: #1a1a1a;
+  min-height: 100vh;
+  padding: 15px;
+  color: #e0e0e0;
+}
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 25px;
+  background: #2a2a2a;
+  border-radius: 12px;
+}
+h2 {
+  color: #ffffff;
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+}
+label {
+  display: block;
+  color: #b0b0b0;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #333;
+  color: #e0e0e0;
+}
+textarea {
+  width: 100%;
+  height: 140px;
+  padding: 14px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  resize: vertical;
+  border: 1px solid #444;
+  border-radius: 6px;
+  background: #333;
+  color: #e0e0e0;
+  font-family: inherit;
+  line-height: 1.5;
+}
+textarea::placeholder {color: #666;}
+button {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  background: #4a4a4a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+button:hover {background: #555;}
+button:active {background: #3a3a3a;}
+#warning {
+  color: #ff6b6b;
+  margin-top: 15px;
+  padding: 12px;
+  background: #3a2020;
+  border-radius: 6px;
+  font-size: 15px;
+  display: none;
+  line-height: 1.4;
+}
+#warning:not(:empty) {display: block;}
+@media (max-width: 640px) {
+  body {padding: 10px;}
+  .container {padding: 20px;}
+  h2 {font-size: 20px; margin-bottom: 18px;}
+  label {font-size: 14px;}
+  select {font-size: 15px; padding: 11px;}
+  textarea {height: 130px; font-size: 15px; padding: 12px;}
+  button {font-size: 15px; padding: 13px;}
+  #warning {font-size: 14px; padding: 11px;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Translator by Rafael A.</h2>
+
+<label>Language:</label>
+<select id="language">
+  <option value="english">English</option>
+  <option value="arabic">Arabic</option>
+</select>
+
+<textarea id="input" placeholder="Enter text..."></textarea>
+<textarea id="output" placeholder="Translation..."></textarea>
+<button id="translate">Translate</button>
+<div id="warning"></div>
+</div>
+
+<script>
+// English mapping
+function encryptEnglish(char){
+  if(char==='a') return '卐'; if(char==='b') return '⚑'; if(char==='c') return '☯'; if(char==='d') return '✦'; if(char==='e') return '☢';
+  if(char==='f') return '✺'; if(char==='g') return '✧'; if(char==='h') return '✪'; if(char==='i') return '✿'; if(char==='j') return '✶';
+  if(char==='k') return '✷'; if(char==='l') return '✸'; if(char==='m') return '✹'; if(char==='n') return '✻'; if(char==='o') return '✼';
+  if(char==='p') return '☀'; if(char==='q') return '☁'; if(char==='r') return '☂'; if(char==='s') return '☃'; if(char==='t') return '☄';
+  if(char==='u') return '★'; if(char==='v') return '☆'; if(char==='w') return '✢'; if(char==='x') return '✣'; if(char==='y') return '✤'; if(char==='z') return '✥';
+
+  if(char==='A') return '𓁀'; if(char==='B') return '𓁁'; if(char==='C') return '𓁂'; if(char==='D') return '𓁃'; if(char==='E') return '𓁄';
+  if(char==='F') return '𓁅'; if(char==='G') return '𓁆'; if(char==='H') return '𓁇'; if(char==='I') return '𓁈'; if(char==='J') return '𓁉';
+  if(char==='K') return '𓁊'; if(char==='L') return '𓁋'; if(char==='M') return '𓁌'; if(char==='N') return '𓁍'; if(char==='O') return '𓁎';
+  if(char==='P') return '𓁏'; if(char==='Q') return '𓁐'; if(char==='R') return '𓁑'; if(char==='S') return '𓁒'; if(char==='T') return '𓁓';
+  if(char==='U') return '𓁔'; if(char==='V') return '𓁕'; if(char==='W') return '𓁖'; if(char==='X') return '𓁗'; if(char==='Y') return '𓁘'; if(char==='Z') return '𓁙';
+
+  if(char==='0') return '𝟘'; if(char==='1') return '𝟙'; if(char==='2') return '𝟚'; if(char==='3') return '𝟛'; if(char==='4') return '𝟜';
+  if(char==='5') return '𝟝'; if(char==='6') return '𝟞'; if(char==='7') return '𝟟'; if(char==='8') return '𝟠'; if(char==='9') return '𝟡';
+
+  if(char==='.') return '❶'; if(char===',') return '❷'; if(char==='?') return '❸'; if(char==='!') return '❹';
+  if(char===':') return '❺'; if(char===';') return '❻'; if(char==='"') return '❼'; if(char==="'") return '❽'; if(char==='(') return '❾'; if(char===')') return '❿';
+
+  if(char===' ') return '•'; if(char==='\n') return '↵';
+  return char;
+}
+
+function decryptEnglish(char){
+  if(char==='卐') return 'a'; if(char==='⚑') return 'b'; if(char==='☯') return 'c'; if(char==='✦') return 'd'; if(char==='☢') return 'e';
+  if(char==='✺') return 'f'; if(char==='✧') return 'g'; if(char==='✪') return 'h'; if(char==='✿') return 'i'; if(char==='✶') return 'j';
+  if(char==='✷') return 'k'; if(char==='✸') return 'l'; if(char==='✹') return 'm'; if(char==='✻') return 'n'; if(char==='✼') return 'o';
+  if(char==='☀') return 'p'; if(char==='☁') return 'q'; if(char==='☂') return 'r'; if(char==='☃') return 's'; if(char==='☄') return 't';
+  if(char==='★') return 'u'; if(char==='☆') return 'v'; if(char==='✢') return 'w'; if(char==='✣') return 'x'; if(char==='✤') return 'y'; if(char==='✥') return 'z';
+
+  if(char==='𓁀') return 'A'; if(char==='𓁁') return 'B'; if(char==='𓁂') return 'C'; if(char==='𓁃') return 'D'; if(char==='𓁄') return 'E';
+  if(char==='𓁅') return 'F'; if(char==='𓁆') return 'G'; if(char==='𓁇') return 'H'; if(char==='𓁈') return 'I'; if(char==='𓁉') return 'J';
+  if(char==='𓁊') return 'K'; if(char==='𓁋') return 'L'; if(char==='𓁌') return 'M'; if(char==='𓁍') return 'N'; if(char==='𓁎') return 'O';
+  if(char==='𓁏') return 'P'; if(char==='𓁐') return 'Q'; if(char==='𓁑') return 'R'; if(char==='𓁒') return 'S'; if(char==='𓁓') return 'T';
+  if(char==='𓁔') return 'U'; if(char==='𓁕') return 'V'; if(char==='𓁖') return 'W'; if(char==='𓁗') return 'X'; if(char==='𓁘') return 'Y'; if(char==='𓁙') return 'Z';
+
+  if(char==='𝟘') return '0'; if(char==='𝟙') return '1'; if(char==='𝟚') return '2'; if(char==='𝟛') return '3'; if(char==='𝟜') return '4';
+  if(char==='𝟝') return '5'; if(char==='𝟞') return '6'; if(char==='𝟟') return '7'; if(char==='𝟠') return '8'; if(char==='𝟡') return '9';
+
+  if(char==='❶') return '.'; if(char==='❷') return ','; if(char==='❸') return '?'; if(char==='❹') return '!';
+  if(char==='❺') return ':'; if(char==='❻') return ';'; if(char==='❼') return '"'; if(char==='❽') return "'"; if(char==='❾') return '('; if(char==='❿') return ')';
+
+  if(char==='•') return ' '; if(char==='↵') return '\n';
+  return char;
+}
+
+// Arabic mapping
+function encryptArabic(char){
+  if(char==='ا') return '卐'; if(char==='ب') return '⚑'; if(char==='ت') return '☯'; if(char==='ث') return '✦'; if(char==='ج') return '☢';
+  if(char==='ح') return '✺'; if(char==='خ') return '✧'; if(char==='د') return '✪'; if(char==='ذ') return '✿'; if(char==='ر') return '✶';
+  if(char==='ز') return '✷'; if(char==='س') return '✸'; if(char==='ش') return '✹'; if(char==='ص') return '✻'; if(char==='ض') return '✼';
+  if(char==='ط') return '☀'; if(char==='ظ') return '☁'; if(char==='ع') return '☂'; if(char==='غ') return '☃'; if(char==='ف') return '☄';
+  if(char==='ق') return '★'; if(char==='ك') return '☆'; if(char==='ل') return '✢'; if(char==='م') return '✣'; if(char==='ن') return '✤';
+  if(char==='ه') return '✥'; if(char==='و') return '𓁀'; if(char==='ي') return '𓁁';
+
+  if(char===' ') return '•'; if(char==='\n') return '↵';
+  return char;
+}
+
+function decryptArabic(char){
+  if(char==='卐') return 'ا'; if(char==='⚑') return 'ب'; if(char==='☯') return 'ت'; if(char==='✦') return 'ث'; if(char==='☢') return 'ج';
+  if(char==='✺') return 'ح'; if(char==='✧') return 'خ'; if(char==='✪') return 'د'; if(char==='✿') return 'ذ'; if(char==='✶') return 'ر';
+  if(char==='✷') return 'ز'; if(char==='✸') return 'س'; if(char==='✹') return 'ش'; if(char==='✻') return 'ص'; if(char==='✼') return 'ض';
+  if(char==='☀') return 'ط'; if(char==='☁') return 'ظ'; if(char==='☂') return 'ع'; if(char==='☃') return 'غ'; if(char==='☄') return 'ف';
+  if(char==='★') return 'ق'; if(char==='☆') return 'ك'; if(char==='✢') return 'ل'; if(char==='✣') return 'م'; if(char==='✤') return 'ن';
+  if(char==='✥') return 'ه'; if(char==='𓁀') return 'و'; if(char==='𓁁') return 'ي';
+
+  if(char==='•') return ' '; if(char==='↵') return '\n';
+  return char;
+}
+
+// Markers
+const markers = {
+  english: '𓁀✿☂',
+  arabic: '☯✦✸'
+}
+
+// Detect if string contains Arabic letters
+function containsArabic(str){
+  return /[\u0600-\u06FF]/.test(str);
+}
+
+// Detect if string contains English letters
+function containsEnglish(str){
+  return /[a-zA-Z]/.test(str);
+}
+
+// Encrypt
+function encryptString(str, lang){
+  let marker = markers[lang] + '   ';
+  let encrypted = str.split('').map(c => lang==='english'? encryptEnglish(c): encryptArabic(c)).join('');
+  return marker + encrypted;
+}
+
+// Decrypt
+function decryptString(str, lang){
+  str = str.replace(/^.{5}\s+/, ''); // remove marker
+  return str.split('').map(c => lang==='english'? decryptEnglish(c): decryptArabic(c)).join('');
+}
+
+// Detect language from marker
+function detectLanguageFromMarker(str){
+  if(str.startsWith(markers.english)) return 'english';
+  if(str.startsWith(markers.arabic)) return 'arabic';
+  return null;
+}
+
+// Check if toggle matches text
+function checkToggle(str, lang){
+  // Check for encrypted text (has marker)
+  const detectedLang = detectLanguageFromMarker(str);
+  if(detectedLang && detectedLang !== lang){
+    return `⚠️ Change the language toggle to ${detectedLang === 'english' ? 'English' : 'Arabic'}`;
+  }
+  
+  // Check for plain text
+  if(containsEnglish(str) && lang!=='english') return "⚠️ Change the language toggle to English";
+  if(containsArabic(str) && lang!=='arabic') return "⚠️ Change the language toggle to Arabic";
+  return '';
+}
+
+document.getElementById('translate').onclick = () => {
+  const lang = document.getElementById('language').value;
+  const input = document.getElementById('input').value;
+  const output = document.getElementById('output').value;
+  const warningDiv = document.getElementById('warning');
+  warningDiv.textContent = '';
+
+  if(input){
+    const warning = checkToggle(input, lang);
+    if(warning){
+      warningDiv.textContent = warning;
+      return;
+    }
+    document.getElementById('output').value = encryptString(input, lang);
+  } else if(output){
+    const warning = checkToggle(output, lang);
+    if(warning){
+      warningDiv.textContent = warning;
+      return;
+    }
+    document.getElementById('input').value = decryptString(output, lang);
+  } else {
+    alert('Enter text in one of the fields!');
+  }
+};
+</script>
+
+</body>
+</html>
